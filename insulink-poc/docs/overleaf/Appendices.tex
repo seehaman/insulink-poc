@@ -1,0 +1,27 @@
+\section{Running the Proof of Concept}
+The repository requires Python~3.10 or later and no other installation.
+
+\begin{verbatim}
+python3 demo.py
+python3 -m unittest discover -s tests -v
+python3 hupa_eval.py "<path>/Preprocessed"
+\end{verbatim}
+The first command runs the end-to-end demo on synthetic data, the second runs the 30 unit tests, and the third runs the evaluation on HUPA-UCM.
+
+{\sloppy The HUPA-UCM dataset is downloaded separately from Mendeley Data~\cite{hupa2024}; the script reads the per-patient CSV files in its \texttt{Preprocessed} folder.\par}
+
+\section{Repository Structure}
+\begin{tabularx}{\textwidth}{lX}
+\hline
+Path & Content \\
+\hline
+\texttt{insulink/safety.py} & Rule-based alerts and time in range \\
+\texttt{insulink/escalation.py} & Escalation state machine \\
+\texttt{insulink/calculator.py} & Educational ICR/ISF calculator \\
+\texttt{insulink/food\_response.py} & Meal response, nearest-neighbour prediction \\
+\texttt{insulink/simulator.py} & Synthetic CGM generator \\
+\texttt{insulink/hupa.py} & HUPA-UCM loading, cleaning and evaluation \\
+\texttt{config/safety\_rules.json} & Placeholder thresholds for clinician review \\
+\texttt{tests/} & Unit tests \\
+\hline
+\end{tabularx}

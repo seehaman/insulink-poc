@@ -1,0 +1,60 @@
+\chapter{Proof of Concept}
+
+The proof of concept implements the riskiest core logic as dependency-free Python so that it can be tested in isolation, and runs the same engine on real patient data. The code is available at \texttt{[TODO: insert GitHub link]}.
+
+\section{What Was Implemented}
+\begin{itemize}
+  \item A synthetic CGM generator with a hidden personal sensitivity per food, so that the method can be checked against a known ground truth.
+  \item A rule-based safety engine with alerts for low, urgent low, high, very high, and rapid change, with a cooldown to limit repeated alerts, plus time in range.
+  \item An escalation state machine: user alert, acknowledgement timeout, contacts notified in priority order, and an immediate ``I'm Not Okay'' path.
+  \item An educational ICR/ISF calculator with hard limits.
+  \item A personal food-response engine using meal-response measurement and similarity-weighted nearest neighbours, with a textual explanation.
+  \item A HUPA-UCM adapter that loads the real dataset, normalises carbohydrate units, extracts meal responses, and evaluates the engine.
+\end{itemize}
+The suite contains 30 automated unit tests, all passing.
+
+\section{Check on Synthetic Data}
+Fourteen days of synthetic data (42 meals) were generated with known personal food sensitivities. Learning on the first ten days and testing on the last four (12 meals), the personal engine's mean absolute error (MAE) of peak rise was 13.7~mg/dL, against 22.8 for a carbohydrate ratio and 31.1 for a global average. This shows only that the method can recover personal structure when it exists by construction.
+
+\section{Evaluation on Real Data}
+\subsection{Dataset}
+HUPA-UCM~\cite{hupa2024} contains 25 people with type~1 diabetes: 309{,}392 FreeStyle Libre~2 readings at 5-minute intervals, insulin doses, 2{,}646 carbohydrate entries, and Fitbit activity. The documentation states carbohydrates in grams, but 18 patients log values of 1 to 7 per meal, consistent with 10~g exchanges; their entries were multiplied by ten, while four patients who log grams were left unchanged. The same safety configuration as the application was applied to the readings: 8 of 25 patients reach the 70\% time-in-range target and the median patient spends 6.4\% of the time below 70~mg/dL.
+
+\subsection{Method}
+A meal is used when no other carbohydrate entry follows within two hours. Its baseline is the mean glucose in the 15 minutes before eating and its peak rise is the highest glucose in the following two hours minus the baseline. Each patient's meals are split in time order: the first 70\% are used for learning and the last 30\% are held out, so the model never sees future meals. The 22 patients with at least 10 such meals give 1{,}519 learning and 662 test meals. Three predictors are compared: the personal engine (similarity-weighted average of the three most similar past meals of the same patient, with similarity combining carbohydrate load 50\%, time of day 25\%, and starting glucose 25\%, since HUPA-UCM records no food names); the patient's own carbohydrate ratio (average rise per gram); and a global average rise over all learning meals. The weights were fixed before testing and not tuned.
+
+\subsection{Results}
+\begin{table}[h]
+\centering
+\begin{tabular}{lcc}
+\hline
+Predictor & Mean of per-patient MAE & Pooled MAE \\
+\hline
+Personal nearest neighbours & 36.4 & 29.9 \\
+Carbohydrate ratio & 37.5 & 33.2 \\
+Global average & 32.4 & 30.1 \\
+\hline
+\end{tabular}
+\caption{Held-out error of predicted peak rise (mg/dL) on HUPA-UCM, 22 patients, 662 test meals.}
+\end{table}
+
+With about two weeks of records, roughly 30 learning meals per patient, the global average was the most accurate predictor on average, and the personal engine had the lowest error for only 5 of 22 patients. Two patients have months of records, which allows a test of how much history is needed: the test meals are kept fixed while the engine sees only its most recent $n$ learning meals.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lccccc}
+\hline
+Learning meals $n$ & 10 & 20 & 30 & 60 & 120 \\
+\hline
+Personal nearest neighbours & 29.9 & 27.7 & 28.5 & 23.8 & 20.9 \\
+Carbohydrate ratio & 30.9 & 27.9 & 29.1 & 27.9 & 28.3 \\
+Global average & 27.3 & 27.3 & 27.3 & 27.3 & 27.3 \\
+\hline
+\end{tabular}
+\caption{Patient 28, MAE (mg/dL) on 60 fixed test meals as learning history grows.}
+\end{table}
+
+For patient 28 the personal engine overtakes the global average at about 60 meals and is 23\% better at 120 meals. For patient 27 it reaches 27.6~mg/dL against 29.0 at 120 meals and stays at that level up to 853 meals. The carbohydrate ratio never performs best.
+
+\section{Limitations}
+This is a first-pass analysis. Long histories exist for only two patients, test sets for most patients are small, and no statistical significance testing has been done. Insulin doses, which are matched to meals, are not yet used as a feature and probably explain part of the strong global baseline. Carbohydrate units were inferred from the data. The results motivate a design in which estimates start from population values and shift towards the user's own history as meals accumulate; this blended estimator has not yet been tested.

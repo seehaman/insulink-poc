@@ -1,0 +1,31 @@
+\chapter{Related Work and Positioning}
+
+% Check each product's current features before final submission; app features change often.
+\section{Existing Tools}
+\begin{itemize}
+  \item \textbf{CGM follower apps} such as LibreLinkUp (Abbott) and Dexcom Follow share a user's live glucose readings and alerts with family members or caregivers. They show what the glucose is, but they do not analyse how the user's meals relate to it.
+  \item \textbf{Logging apps} such as mySugr let users record meals, insulin, and glucose and produce reports. Interpretation of the records is left to the user and their care team.
+  \item \textbf{Data platforms} such as Glooko collect data from meters, pumps, and CGMs into one place for patients and clinics. They focus on reporting rather than personal, explainable food guidance.
+\end{itemize}
+
+\section{Metrics and Data from the Literature}
+Time in range and related CGM metrics follow the international consensus~\cite{battelino2019}. Clinical accuracy of glucose predictions is conventionally assessed with the Clarke Error Grid~\cite{clarke1987}, which the full project will use alongside RMSE for forecasting. The HUPA-UCM dataset~\cite{hupa2024} provides FreeStyle Libre~2 glucose, insulin, carbohydrate, and activity records for 25 people with type~1 diabetes under an open licence, and is used for the evaluation in Chapter~5.
+
+\section{Gap}
+\begin{table}[h]
+\centering
+\begin{tabularx}{\textwidth}{Xll}
+\hline
+Capability & Typical tools & InsuLink \\
+\hline
+Glucose display and history & Yes & Yes \\
+Alert sharing with contacts & Yes (follower apps) & Yes \\
+Meal and insulin logging with reports & Yes (logging apps) & Yes \\
+Personal, explainable food response & Not a core feature & Yes \\
+Escalation chain with manual emergency button & Not a core feature & Yes \\
+\hline
+\end{tabularx}
+\caption{Positioning of InsuLink against the tool types above.}
+\end{table}
+
+The research question is narrow: can an application explain one person's own food response, and escalate to trusted people when that person cannot act?

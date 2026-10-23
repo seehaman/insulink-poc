@@ -1,0 +1,13 @@
+\chapter{Conclusion and Future Work}
+
+\section{Conclusion}
+The proof of concept shows that the core of InsuLink is feasible. The safety rules and the escalation chain behave as specified and are covered by automated tests. The personal food-response engine produces estimates that always cite the user's own past meals. On real data from the HUPA-UCM dataset, two weeks of history was not enough for the personal engine to beat a global average, but with months of history it did, by 23\% for one patient. The design conclusion is that InsuLink should begin with population estimates and become personal as a user's records grow.
+
+\section{Future Work}
+\begin{enumerate}
+  \item Implement and test a blended estimator that weights personal history more as the number of logged meals grows.
+  \item Add insulin dose and activity as features, and test significance across patients.
+  \item Port the engine and safety rules to the Flutter application with Firebase and server-side escalation.
+  \item Add short-term glucose forecasting evaluated by RMSE and the Clarke Error Grid~\cite{clarke1987}.
+  \item Have a clinician review all safety thresholds and calculator limits before any use with real users.
+\end{enumerate}

@@ -1,0 +1,26 @@
+{
+  "_status": "PLACEHOLDER VALUES FOR ACADEMIC PROTOTYPE. A clinician must review every number before any real use.",
+  "units": "mg/dL",
+  "urgent_low_below": 54,
+  "low_below": 70,
+  "high_above": 180,
+  "very_high_above": 250,
+  "rate_window_min": 15,
+  "rapid_fall_per_min": -2.0,
+  "rapid_rise_per_min": 4.0,
+  "alert_cooldown_min": 30,
+  "calculator": {
+    "icr_min": 3,
+    "icr_max": 50,
+    "isf_min": 10,
+    "isf_max": 150,
+    "max_carbs_g": 200,
+    "confirm_above_units": 10,
+    "target_mgdl": 110,
+    "round_to_units": 0.5
+  },
+  "escalation": {
+    "ack_timeout_min": 10,
+    "step_min": 10
+  }
+}

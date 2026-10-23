@@ -1,0 +1,33 @@
+\chapter{System Design}
+
+\section{Architecture}
+\begin{table}[h]
+\centering
+\small
+\begin{tabularx}{\textwidth}{lXX}
+\hline
+Layer & Technology & Responsibility \\
+\hline
+Mobile app & Flutter, Riverpod, fl\_chart & Dashboard, logging, calculator UI \\
+Authentication and data & Firebase Auth, Firestore & Accounts, readings, meals, alerts \\
+Escalation & Cloud Functions, FCM, SMS provider & Server-side timers and notifications \\
+Safety engine & Pure Dart module & Fixed rules, unit tested \\
+Intelligence & Python, TensorFlow Lite & Pattern and forecast models, on device \\
+\hline
+\end{tabularx}
+\caption{Planned architecture.}
+\end{table}
+
+\section{Data Model}
+{\sloppy Main collections: \texttt{users}, \texttt{glucose\_readings}, \texttt{meals}, \texttt{activities}, \texttt{insulin\_logs}, \texttt{meal\_responses} (derived), \texttt{alerts}, and \texttt{support\_circle}.\par}
+
+\section{Safety Design}
+Thresholds are stored in a configuration file reviewed by a clinician, not hard-coded. The calculator requires user-entered ICR and ISF, enforces ranges, refuses to calculate when glucose is low, requires confirmation above a unit limit, and never auto-fills a dose. Escalation runs on the server so it does not depend on the phone staying awake.
+
+\section{Intelligence Design}
+\begin{enumerate}
+  \item \textbf{Phase A (statistics):} measure each meal's baseline, peak rise, time to peak, and two-hour incremental area; group similar meals; report the user's own average.
+  \item \textbf{Phase B (forecasting):} short-term (30 to 60 minute) forecasting, evaluated by RMSE and the Clarke Error Grid~\cite{clarke1987}.
+  \item \textbf{Phase C (What-If):} reuse phases A and B with hypothetical meals.
+\end{enumerate}
+Explainability is provided by returning the nearest past meals as evidence. Because the evaluation in Chapter~5 shows that personal estimates need many logged meals, a new user's estimates start from population values and shift towards the user's own history as meals accumulate.

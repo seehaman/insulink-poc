@@ -1,0 +1,57 @@
+\chapter{Plan, Risks, and Ethics}
+
+\section{Twelve-Week Plan}
+\begin{table}[h]
+\centering
+\begin{tabularx}{\textwidth}{lX}
+\hline
+Weeks & Deliverable \\
+\hline
+1--2 & App skeleton, authentication, onboarding, data model, HUPA-UCM import \\
+3--4 & Dashboard, charts, logging screens \\
+5--6 & Safety engine and alert interface, unit tests \\
+7--8 & Support Circle, escalation functions, ``I'm Not Okay'' \\
+9--10 & Food-response engine with blended estimates, ICR/ISF tool, demo-ready build \\
+11--12 & Polish, user testing, thesis writing, buffer \\
+\hline
+\end{tabularx}
+\caption{Proposed schedule. Adjust once the supervisor confirms deadlines.}
+\end{table}
+
+\section{Team}
+\begin{table}[h]
+\centering
+\begin{tabular}{ll}
+\hline
+Member & Proposed role \\
+\hline
+Ahmed Abdelsalam & Product lead and Flutter application \\
+Youssef Gharib & Backend and escalation \\
+Mohamed Emad & Machine learning and data \\
+Omar Wael & Domain expertise and user testing \\
+\hline
+\end{tabular}
+\caption{Team and proposed roles. Supervisor: Dr.~Raghda. Clinical advisor: to be confirmed.}
+\end{table}
+
+\section{Risks and Mitigations}
+\begin{table}[h]
+\centering
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{0.36\textwidth}X}
+\hline
+Risk & Mitigation \\
+\hline
+No real user history at demo time & HUPA-UCM dataset (25 patients) and a simulated stream \\
+Two weeks of data is too little to personalise & Start from population estimates and blend in personal ones as meals accumulate \\
+Inconsistent carbohydrate units in data & Detect and normalise units per patient before modelling \\
+Sensor protocols are proprietary & Manual entry, CSV import, simulated stream \\
+Medical and regulatory exposure & Academic scope; clinician reviews thresholds and calculator limits \\
+Unreliable phone alerts & Server-side timers; push plus SMS fallback \\
+Scope creep & Tier~1 frozen; new ideas go to a later list \\
+\hline
+\end{tabularx}
+\caption{Main risks.}
+\end{table}
+
+\section{Ethics and Data Protection}
+HUPA-UCM is anonymised and published under a Creative Commons Attribution 4.0 licence; it is cited and is not redistributed in the project repository. Any data from real users is collected only with explicit written consent, stored encrypted, and deletable on request. The application is presented as educational support and never instructs a user to dose. A clinician will review safety thresholds before any pilot.

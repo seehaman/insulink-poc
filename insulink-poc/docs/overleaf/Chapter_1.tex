@@ -1,0 +1,27 @@
+\chapter{Introduction}
+
+\section{Background and Motivation}
+Diabetes requires daily decisions about food, activity, and insulin. In Egypt, an estimated 13.2 million adults aged 20 to 79 were living with diabetes in 2024, an age-standardised prevalence of 22.4\%, and about 192{,}000 people were living with type~1 diabetes~\cite{idf2025}. Continuous glucose monitors (CGMs) and logging apps report what the glucose is, but users are left to work out why it changed. Existing sharing tools notify family members, yet they do not explain how a particular person responds to particular meals.
+
+Even with a CGM, good control is hard to reach. In the public HUPA-UCM dataset~\cite{hupa2024}, only 8 of 25 people with type~1 diabetes spend at least 70\% of the time between 70 and 180~mg/dL, the consensus target~\cite{battelino2019}, and 22 of 25 had at least one low below 54~mg/dL lasting 15 minutes or more.
+
+\section{Problem Statement}
+\begin{enumerate}
+  \item Glucose data is shown without explanation of its causes.
+  \item Food guidance such as glycemic index tables is generic, while individual responses differ.
+  \item When glucose becomes dangerous, the alert depends on the user being able to respond.
+\end{enumerate}
+
+\section{Proposed Solution}
+InsuLink follows the loop \emph{monitor, understand, learn, predict, guide, protect, personalize}. It combines (i) personal food-response analysis with explainable guidance, (ii) fixed, rule-based safety alerts, and (iii) a Support Circle with server-side escalation and a manual ``I'm Not Okay'' function.
+
+\section{Objectives}
+\begin{enumerate}
+  \item Build a Flutter mobile application implementing the Tier~1 scope in Chapter~3.
+  \item Implement a personal food-response engine whose every recommendation cites the user's own past meals.
+  \item Implement a tested, configuration-driven safety and escalation engine separate from any machine learning.
+  \item Evaluate prediction quality on held-out real patient data (HUPA-UCM) using agreed error metrics.
+\end{enumerate}
+
+\section{Scope and Limitations}
+This is an academic project. InsuLink does not diagnose, does not instruct users to take insulin, and does not replace a care team. Direct CGM integration is out of scope because common sensor protocols are proprietary; the application uses manual entry, CSV import, and a simulated CGM stream, and the intelligence is evaluated on the public HUPA-UCM dataset.

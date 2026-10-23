@@ -1,0 +1,30 @@
+\chapter{Requirements and Scope}
+
+\section{Tiered Scope}
+The full vision contains eighteen features. To keep the graduation project deliverable, the scope is split into tiers.
+
+\begin{description}
+  \item[Tier 1 (graduation MVP)] Glucose dashboard; meal, activity and insulin logging; rule-based safety alerts; Support Circle with escalation; ``I'm Not Okay'' button; personal food response; educational ICR/ISF calculator.
+  \item[Tier 2 (first product version)] Meal-response prediction; What-If meal simulator; weekly insights; Emergency Profile; real CGM integration.
+  \item[Tier 3 (later)] AI assistant chat; sleep and lifestyle correlation; Libre integration; full learning loop.
+\end{description}
+
+\section{Functional Requirements (Tier 1)}
+\begin{enumerate}
+  \item FR1: Display current glucose, trend, time in range, and daily chart.
+  \item FR2: Log meals (foods and carbohydrates), insulin, and activity with timestamps.
+  \item FR3: Raise alerts for low, urgent low, high, very high, and rapid change using thresholds from a configuration file.
+  \item FR4: Allow the user to maintain a prioritized Support Circle with per-contact consent.
+  \item FR5: Escalate unacknowledged alerts to contacts in priority order using server-side timers.
+  \item FR6: Provide a manual ``I'm Not Okay'' function that notifies all selected contacts.
+  \item FR7: For each logged meal, compute the glucose response and show the most similar past meals as evidence.
+  \item FR8: Provide an educational ICR/ISF calculator that requires user-entered parameters and enforces hard limits.
+\end{enumerate}
+
+\section{Non-Functional Requirements}
+\begin{itemize}
+  \item Safety logic is deterministic, unit tested, and separate from machine learning.
+  \item Health data is encrypted and the user can delete it. Egypt's Personal Data Protection Law, Law No.~151 of 2020~\cite{egyptpdpl}, applies to personal data handling.
+  \item Alert delivery uses push notifications with an SMS fallback.
+  \item The interface will support English and Arabic. [TODO: confirm with supervisor whether Arabic is in scope.]
+\end{itemize}
